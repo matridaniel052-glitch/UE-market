@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="fw-bold">⚙️ Admin Panel</h4>
+  <a href="/admin/add-product" class="btn btn-warning btn-sm fw-bold">+ Add Product</a>
+</div>
+
+<!-- STATS -->
+<div class="row row-cols-2 g-2 mb-3">
+  <div class="col">
+    <div class="card border-0 bg-warning rounded-3 p-3 text-center">
+      <h3 class="fw-bold mb-0">{{ products|length }}</h3>
+      <small class="fw-bold">Total Products</small>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card border-0 bg-dark text-white rounded-3 p-3 text-center">
+      <h3 class="fw-bold mb-0">
+        GH₵ {{ products | sum(attribute='price') | round(2) }}
+      </h3>
+      <small class="fw-bold">Total Value</small>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT LIST -->
+{% if products %}
+  {% for product in products %}
+  <div class="card mb-2 border-0 shadow-sm rounded-3 p-2">
+    <div class="d-flex align-items-center gap-3">
+
+      <!-- PRODUCT IMAGE -->
+      <img src="{{ url_for('static', filename='images/' + product.image) }}"
+           style="width:65px; height:65px; object-fit:cover;
+                  border-radius:10px; border:2px solid #ffd200;"
+           onerror="this.src='https://placehold.co/65x65/ffd200/000?text=No+Img'">
+
+      <!-- PRODUCT INFO -->
+      <div class="flex-grow-1">
+        <p class="fw-bold mb-0">{{ product.name }}</p>
+        <p class="text-warning fw-bold mb-0">GH₵ {{ product.price }}</p>
+        <small class="text-muted">
+          📦 Stock: {{ product.stock }} &nbsp;|&nbsp;
+          📍 {{ product.market }}
+        </small>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="d-flex flex-column gap-1">
+        <a href="/admin/edit/{{ product.id }}"
+           class="btn btn-sm btn-warning fw-bold">✏️ Edit</a>
+        <a href="/admin/delete/{{ product.id }}"
+           class="btn btn-sm btn-danger fw-bold"
+           onclick="return confirm('Delete {{ product.name }}?')">🗑️</a>
+      </div>
+
+    </div>
+  </div>
+  {% endfor %}
+
+{% else %}
+  <div class="text-center py-5">
+    <div class="fs-1">🏪</div>
+    <p class="text-muted">No products yet.</p>
+    <a href="/admin/add-product" class="btn btn-warning fw-bold">+ Add First Product</a>
+  </div>
+{% endif %}
+
+{% endblock %}

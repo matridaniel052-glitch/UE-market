@@ -1,0 +1,9 @@
+flask
+flask-sqlalchemy
+flask-login
+flask-wtf
+flask-bcrypt
+pillow
+python-dotenv
+gunicorn
+werkzeug

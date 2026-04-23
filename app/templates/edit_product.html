@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h4 class="fw-bold mb-3">✏️ Edit Product</h4>
+
+<div class="card border-0 shadow rounded-4 p-4">
+  <form method="POST" enctype="multipart/form-data">
+
+    <!-- CURRENT IMAGE PREVIEW -->
+    <div class="mb-3 text-center">
+      <img id="preview-img"
+           src="{{ url_for('static', filename='images/' + product.image) }}"
+           style="width:100%; height:180px; object-fit:cover;
+                  border-radius:12px; border:2px solid #ffd200;"
+           onerror="this.src='https://placehold.co/400x180/ffd200/000?text=No+Image'">
+      <label class="btn btn-warning w-100 fw-bold mt-2" for="image-input">
+        📁 Change Image (optional)
+      </label>
+      <input type="file" id="image-input" name="image"
+             accept="image/*" class="d-none"
+             onchange="previewImage(this)">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Product Name</label>
+      <input type="text" name="name" class="form-control rounded-3"
+             value="{{ product.name }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Price (GH₵)</label>
+      <input type="number" name="price" step="0.01"
+             class="form-control rounded-3" value="{{ product.price }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Category</label>
+      <select name="category" class="form-select rounded-3">
+        <option value="smock" {% if product.category=='smock' %}selected{% endif %}>👘 Smocks & Fashion</option>
+        <option value="food" {% if product.category=='food' %}selected{% endif %}>🍲 Local Food</option>
+        <option value="crafts" {% if product.category=='crafts' %}selected{% endif %}>🧺 Crafts & Baskets</option>
+        <option value="shea" {% if product.category=='shea' %}selected{% endif %}>🧴 Shea Butter</option>
+        <option value="animals" {% if product.category=='animals' %}selected{% endif %}>🐄 Animals</option>
+        <option value="grains" {% if product.category=='grains' %}selected{% endif %}>🌾 Grains & Cereals</option>
+        <option value="pottery" {% if product.category=='pottery' %}selected{% endif %}>🏺 Pottery</option>
+        <option value="herbal" {% if product.category=='herbal' %}selected{% endif %}>🌿 Herbal Medicine</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">📍 Market Location</label>
+      <select name="market" class="form-select rounded-3">
+        <option value="Bolga" {% if product.market=='Bolga' %}selected{% endif %}>🏙️ Bolgatanga Market</option>
+        <option value="Navrongo" {% if product.market=='Navrongo' %}selected{% endif %}>🏘️ Navrongo Market</option>
+        <option value="Paga" {% if product.market=='Paga' %}selected{% endif %}>🐊 Paga Market</option>
+        <option value="Bawku" {% if product.market=='Bawku' %}selected{% endif %}>🏪 Bawku Market</option>
+        <option value="Sandema" {% if product.market=='Sandema' %}selected{% endif %}>🛖 Sandema Market</option>
+        <option value="Zebilla" {% if product.market=='Zebilla' %}selected{% endif %}>🏡 Zebilla Market</option>
+        <option value="Tongo" {% if product.market=='Tongo' %}selected{% endif %}>⛰️ Tongo Market</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Stock Quantity</label>
+      <input type="number" name="stock" class="form-control rounded-3"
+             value="{{ product.stock }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Description</label>
+      <textarea name="description" class="form-control rounded-3"
+                rows="3">{{ product.description }}</textarea>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-warning fw-bold btn-lg rounded-3 flex-grow-1">
+        💾 Save Changes →
+      </button>
+      <a href="/admin" class="btn btn-outline-secondary btn-lg rounded-3">
+        Cancel
+      </a>
+    </div>
+
+  </form>
+</div>
+
+<script>
+function previewImage(input) {
+  const file = input.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('preview-img').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+</script>
+
+{% endblock %}

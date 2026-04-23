@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h4 class="fw-bold mb-3">💳 Checkout</h4>
+
+<div class="card border-0 shadow-sm rounded-4 p-3 mb-3">
+  <h6 class="fw-bold mb-2">🧾 Your Order</h6>
+  {% for item in items %}
+  <div class="d-flex justify-content-between py-1 border-bottom">
+    <span class="small">{{ item.product.name }} × {{ item.qty }}</span>
+    <span class="small fw-bold text-warning">GH₵ {{ item.subtotal }}</span>
+  </div>
+  {% endfor %}
+  <div class="d-flex justify-content-between pt-2">
+    <span class="fw-bold">Total</span>
+    <span class="fw-bold text-warning">GH₵ {{ total }}</span>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 p-3 mb-3">
+  <h6 class="fw-bold mb-3">📦 Delivery Information</h6>
+  <form method="POST" action="/place-order">
+    <div class="mb-3">
+      <label class="form-label fw-bold">Full Name</label>
+      <input type="text" name="fullname" class="form-control rounded-3"
+             placeholder="Your full name" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">Phone Number</label>
+      <input type="tel" name="phone" class="form-control rounded-3"
+             placeholder="e.g. 0241234567" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">📍 Delivery Location</label>
+      <select name="location" class="form-select rounded-3">
+        <option>Bolgatanga</option>
+        <option>Navrongo</option>
+        <option>Paga</option>
+        <option>Bawku</option>
+        <option>Sandema</option>
+        <option>Zebilla</option>
+        <option>Tongo</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">Payment Method</label>
+      <div class="d-flex flex-column gap-2">
+        <label class="card border-0 shadow-sm rounded-3 p-3 d-flex align-items-center gap-2">
+          <input type="radio" name="payment" value="momo" checked>
+          <span>📱 Mobile Money (MTN / Vodafone / AirtelTigo)</span>
+        </label>
+        <label class="card border-0 shadow-sm rounded-3 p-3 d-flex align-items-center gap-2">
+          <input type="radio" name="payment" value="cash">
+          <span>💵 Cash on Delivery</span>
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-warning w-100 fw-bold btn-lg rounded-3">
+      🎉 Place Order →
+    </button>
+  </form>
+</div>
+
+{% endblock %}

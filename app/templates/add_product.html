@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h4 class="fw-bold mb-3">➕ Add New Product</h4>
+
+<div class="card border-0 shadow rounded-4 p-4">
+  <form method="POST" enctype="multipart/form-data">
+
+    <!-- IMAGE UPLOAD -->
+    <div class="mb-3 text-center">
+      <div class="rounded-3 mb-2 overflow-hidden"
+           style="width:100%; height:180px; background:#f0f0f0;
+                  display:flex; align-items:center; justify-content:center;">
+        <img id="preview-img" src="" alt=""
+             style="display:none; width:100%; height:180px; object-fit:cover;">
+        <span id="preview-text" class="text-muted fs-5">📷 No image selected</span>
+      </div>
+      <label class="btn btn-warning w-100 fw-bold" for="image-input">
+        📁 Choose Product Image
+      </label>
+      <input type="file" id="image-input" name="image"
+             accept="image/*" class="d-none"
+             onchange="previewImage(this)">
+    </div>
+
+    <!-- PRODUCT NAME -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Product Name</label>
+      <input type="text" name="name" class="form-control rounded-3"
+             placeholder="e.g. Bolga Smock (Men)" required>
+    </div>
+
+    <!-- PRICE -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Price (GH₵)</label>
+      <input type="number" name="price" step="0.01"
+             class="form-control rounded-3" placeholder="e.g. 150" required>
+    </div>
+
+    <!-- CATEGORY -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Category</label>
+      <select name="category" class="form-select rounded-3">
+        <option value="smock">👘 Smocks & Fashion</option>
+        <option value="food">🍲 Local Food</option>
+        <option value="crafts">🧺 Crafts & Baskets</option>
+        <option value="shea">🧴 Shea Butter</option>
+        <option value="animals">🐄 Animals</option>
+        <option value="grains">🌾 Grains & Cereals</option>
+        <option value="pottery">🏺 Pottery</option>
+        <option value="herbal">🌿 Herbal Medicine</option>
+      </select>
+    </div>
+
+    <!-- MARKET LOCATION -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">📍 Market Location</label>
+      <select name="market" class="form-select rounded-3">
+        <option value="Bolga">🏙️ Bolgatanga Market</option>
+        <option value="Navrongo">🏘️ Navrongo Market</option>
+        <option value="Paga">🐊 Paga Market</option>
+        <option value="Bawku">🏪 Bawku Market</option>
+        <option value="Sandema">🛖 Sandema Market</option>
+        <option value="Zebilla">🏡 Zebilla Market</option>
+        <option value="Tongo">⛰️ Tongo Market</option>
+      </select>
+    </div>
+
+    <!-- STOCK -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Stock Quantity</label>
+      <input type="number" name="stock" class="form-control rounded-3"
+             placeholder="How many available?" required>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Description</label>
+      <textarea name="description" class="form-control rounded-3"
+                rows="3" placeholder="Describe the product..."></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-warning w-100 fw-bold btn-lg rounded-3">
+      💾 Save Product →
+    </button>
+
+  </form>
+</div>
+
+<script>
+function previewImage(input) {
+  const file = input.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('preview-img').src = e.target.result;
+      document.getElementById('preview-img').style.display = 'block';
+      document.getElementById('preview-text').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+}
+</script>
+
+{% endblock %}

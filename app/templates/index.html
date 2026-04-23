@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- HERO BANNER -->
+<div class="hero-banner rounded-4 mb-3 p-4 text-center">
+  <h2 class="fw-bold text-dark">🏪 UE Market</h2>
+  <p class="text-dark mb-1">Your Upper East Ghana Marketplace</p>
+  <small class="text-dark opacity-75">Bolga • Navrongo • Paga • Bawku • Sandema</small>
+</div>
+
+<!-- SEARCH BAR -->
+<!-- SEARCH BAR -->
+<form method="GET" action="/">
+  <div class="input-group mb-3 shadow-sm">
+    <span class="input-group-text bg-warning border-0">🔍</span>
+    <input type="text" name="search" class="form-control border-0"
+           placeholder="Search smocks, shea butter, baskets..."
+           value="{{ search }}">
+    <button class="btn btn-dark" type="submit">Search</button>
+  </div>
+</form>
+
+<!-- MARKET LOCATIONS -->
+<h6 class="fw-bold mb-2">📍 Browse by Market</h6>
+<div class="d-flex gap-2 overflow-auto mb-3 pb-1">
+  <a href="/?market=bolga" class="btn btn-sm btn-dark rounded-pill text-nowrap">🏙️ Bolga Market</a>
+  <a href="/?market=navrongo" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🏘️ Navrongo</a>
+  <a href="/?market=paga" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🐊 Paga</a>
+  <a href="/?market=bawku" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🏪 Bawku</a>
+  <a href="/?market=sandema" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🛖 Sandema</a>
+</div>
+
+<!-- CATEGORIES -->
+<h6 class="fw-bold mb-2">🗂️ Categories</h6>
+<div class="row row-cols-4 g-2 mb-3 text-center">
+  <div class="col">
+    <a href="/?cat=smock" class="text-decoration-none">
+      <div class="cat-box bg-warning rounded-3 p-2">
+        <div class="fs-4">👘</div>
+        <small class="fw-bold text-dark">Smocks</small>
+      </div>
+    </a>
+  </div>
+  <div class="col">
+    <a href="/?cat=food" class="text-decoration-none">
+      <div class="cat-box bg-success rounded-3 p-2">
+        <div class="fs-4">🍲</div>
+        <small class="fw-bold text-white">Local Food</small>
+      </div>
+    </a>
+  </div>
+  <div class="col">
+    <a href="/?cat=crafts" class="text-decoration-none">
+      <div class="cat-box bg-danger rounded-3 p-2">
+        <div class="fs-4">🧺</div>
+        <small class="fw-bold text-white">Crafts</small>
+      </div>
+    </a>
+  </div>
+  <div class="col">
+    <a href="/?cat=shea" class="text-decoration-none">
+      <div class="cat-box bg-info rounded-3 p-2">
+        <div class="fs-4">🧴</div>
+        <small class="fw-bold text-white">Shea</small>
+      </div>
+    </a>
+  </div>
+  <div class="col">
+    <a href="/?cat=animals" class="text-decoration-none">
+      <div class="cat-box bg-secondary rounded-3 p-2">
+        <div class="fs-4">🐄</div>
+        <small class="fw-bold text-white">Animals</small>
+      </div>
+    </a>
+  </div>
+  <div class="col">
+    <a href="/?cat=grains" class="text-decoration-none">
+      <div class="cat-box bg-warning rounded-3 p-2">
+        <div class="fs-4">🌾</div>
+        <small class="fw-bold text-dark">Grains</small>
+      </div>
+    </a>
+  </div>
+  <div class="col">
+    <a href="/?cat=pottery" class="text-decoration-none">
+      <div class="cat-box bg-danger rounded-3 p-2">
+        <div class="fs-4">🏺</div>
+        <small class="fw-bold text-white">Pottery</small>
+      </div>
+    </a>
+  </div>
+  <div class="col">
+    <a href="/?cat=medicine" class="text-decoration-none">
+      <div class="cat-box bg-success rounded-3 p-2">
+        <div class="fs-4">🌿</div>
+        <small class="fw-bold text-white">Herbal</small>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- FEATURED PRODUCTS -->
+<h6 class="fw-bold mb-2">🔥 Featured Products</h6>
+
+{% if products %}
+<div class="row row-cols-2 g-2">
+  {% for product in products %}
+  <div class="col">
+    <div class="card h-100 shadow-sm product-card border-0">
+      <img src="{{ url_for('static', filename='images/' + product.image) }}"
+           class="card-img-top product-img" alt="{{ product.name }}">
+      <div class="card-body p-2">
+        <p class="card-title fw-bold mb-1 small">{{ product.name }}</p>
+        <p class="text-muted small mb-1">📍 {{ product.category }}</p>
+        <p class="text-warning fw-bold mb-1">GH₵ {{ product.price }}</p>
+        <a href="/product/{{ product.id }}" class="btn btn-warning btn-sm w-100 fw-bold">
+          View Item
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<div class="text-center py-4">
+  <div class="fs-1">🏪</div>
+  <p class="text-muted mt-2">No products yet.</p>
+  <a href="/admin/add-product" class="btn btn-warning fw-bold">+ Add First Product</a>
+</div>
+{% endif %}
+
+<!-- MARKET INFO SECTION -->
+<div class="mt-4">
+  <h6 class="fw-bold mb-2">🗺️ Popular Markets</h6>
+  <div class="card border-0 shadow-sm rounded-4 p-3 mb-2">
+    <div class="d-flex align-items-center gap-3">
+      <div class="fs-2">🏙️</div>
+      <div>
+        <p class="fw-bold mb-0">Bolgatanga Central Market</p>
+        <small class="text-muted">Largest market in Upper East • Open Daily</small><br>
+        <small class="text-success">✅ Smocks, Food, Crafts, Electronics</small>
+      </div>
+    </div>
+  </div>
+  <div class="card border-0 shadow-sm rounded-4 p-3 mb-2">
+    <div class="d-flex align-items-center gap-3">
+      <div class="fs-2">🐊</div>
+      <div>
+        <p class="fw-bold mb-0">Paga Market</p>
+        <small class="text-muted">Border town market • Open Daily</small><br>
+        <small class="text-success">✅ Local crafts, Food, Animals</small>
+      </div>
+    </div>
+  </div>
+  <div class="card border-0 shadow-sm rounded-4 p-3 mb-2">
+    <div class="d-flex align-items-center gap-3">
+      <div class="fs-2">🏘️</div>
+      <div>
+        <p class="fw-bold mb-0">Navrongo Market</p>
+        <small class="text-muted">Kassena-Nankana district • Weekly market</small><br>
+        <small class="text-success">✅ Shea butter, Grains, Pottery</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

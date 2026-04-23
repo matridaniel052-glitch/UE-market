@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h4 class="fw-bold mb-3">⚙️ Settings</h4>
+
+<!-- PROFILE CARD -->
+<div class="card border-0 shadow-sm rounded-4 p-3 mb-3 text-center">
+  <div class="fs-1 mb-2">👤</div>
+  <h5 class="fw-bold mb-0">{{ current_user.name }}</h5>
+  <p class="text-muted small">{{ current_user.email }}</p>
+  {% if current_user.is_admin %}
+  <span class="badge bg-warning text-dark">⭐ Admin</span>
+  {% else %}
+  <span class="badge bg-secondary">Customer</span>
+  {% endif %}
+  <p class="text-muted small mt-1">
+    Member since {{ current_user.joined.strftime('%B %Y') }}
+  </p>
+</div>
+
+<!-- UPDATE PROFILE -->
+<div class="card border-0 shadow-sm rounded-4 p-3 mb-3">
+  <h6 class="fw-bold mb-3">👤 Update Profile</h6>
+  <form method="POST">
+    <input type="hidden" name="action" value="update_profile">
+    <div class="mb-3">
+      <label class="form-label fw-bold">Full Name</label>
+      <input type="text" name="name" class="form-control rounded-3"
+             value="{{ current_user.name }}" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">Phone Number</label>
+      <input type="tel" name="phone" class="form-control rounded-3"
+             value="{{ current_user.phone or '' }}"
+             placeholder="e.g. 0241234567">
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">📍 Your Location</label>
+      <select name="location" class="form-select rounded-3">
+        {% for loc in ['Bolgatanga','Navrongo','Paga','Bawku','Sandema','Zebilla','Tongo','Other'] %}
+        <option {% if current_user.location == loc %}selected{% endif %}>{{ loc }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-warning w-100 fw-bold rounded-3">
+      💾 Save Profile
+    </button>
+  </form>
+</div>
+
+<!-- CHANGE PASSWORD -->
+<div class="card border-0 shadow-sm rounded-4 p-3 mb-3">
+  <h6 class="fw-bold mb-3">🔐 Change Password</h6>
+  <form method="POST">
+    <input type="hidden" name="action" value="change_password">
+    <div class="mb-3">
+      <label class="form-label fw-bold">Current Password</label>
+      <input type="password" name="old_password"
+             class="form-control rounded-3"
+             placeholder="Enter current password" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold">New Password</label>
+      <input type="password" name="new_password"
+             class="form-control rounded-3"
+             placeholder="Enter new password" required>
+    </div>
+    <button type="submit" class="btn btn-dark w-100 fw-bold rounded-3">
+      🔐 Change Password
+    </button>
+  </form>
+</div>
+
+<!-- QUICK LINKS -->
+<div class="card border-0 shadow-sm rounded-4 p-3 mb-3">
+  <h6 class="fw-bold mb-3">🔗 Quick Links</h6>
+  <div class="d-flex flex-column gap-2">
+    <a href="/cart" class="btn btn-outline-warning rounded-3 text-start">
+      🛒 My Cart
+    </a>
+    {% if current_user.is_admin %}
+    <a href="/admin" class="btn btn-outline-dark rounded-3 text-start">
+      ⚙️ Admin Panel
+    </a>
+    <a href="/admin/add-product" class="btn btn-outline-dark rounded-3 text-start">
+      ➕ Add New Product
+    </a>
+    {% endif %}
+    <a href="/logout" class="btn btn-outline-danger rounded-3 text-start">
+      🚪 Logout
+    </a>
+  </div>
+</div>
+
+{% endblock %}
