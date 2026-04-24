@@ -78,4 +78,8 @@ def place_order():
 def cart_count():
     cart = session.get('cart', {})
     count = sum(cart.values())
+    return dict(cart_count=count)@shop.app_context_processor
+def inject_cart_count():
+    cart = session.get('cart', {})
+    count = sum(cart.values())
     return dict(cart_count=count)
