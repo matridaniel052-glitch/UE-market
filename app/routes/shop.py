@@ -14,13 +14,17 @@ def index():
     if search:
         query = query.filter(Product.name.ilike(f'%{search}%'))
     if category:
-        query = query.filter_by(category=category)
+        query = query.filter(Product.category == category)
     if market:
-        query = query.filter_by(market=market)
+        query = query.filter(Product.market == market)
 
     products = query.all()
-    return render_template('index.html', products=products,
-                           search=search, category=category, market=market)
+
+    return render_template('index.html',
+                           products=products,
+                           search=search,
+                           category=category,
+                           market=market)
 
 @shop.route('/product/<int:id>')
 def product_detail(id):
@@ -55,7 +59,7 @@ def remove_from_cart(id):
     cart = session.get('cart', {})
     cart.pop(str(id), None)
     session['cart'] = cart
-    flash('Item removed.')
+    flash('Item removed from cart.')
     return redirect(url_for('shop.cart'))
 
 @shop.route('/checkout')
