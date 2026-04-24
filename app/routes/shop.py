@@ -36,6 +36,7 @@ def add_to_cart(id):
     session.modified = True
     flash('✅ Item added to cart!')
     return redirect(url_for('shop.product_detail', id=id))
+
 @shop.route('/cart')
 def cart():
     cart = session.get('cart', {})
@@ -54,7 +55,7 @@ def remove_from_cart(id):
     cart = session.get('cart', {})
     cart.pop(str(id), None)
     session['cart'] = cart
-    flash('Item removed from cart.')
+    flash('Item removed.')
     return redirect(url_for('shop.cart'))
 
 @shop.route('/checkout')
@@ -73,9 +74,5 @@ def checkout():
 @shop.route('/place-order', methods=['POST'])
 def place_order():
     session.pop('cart', None)
-    flash('🎉 Order placed successfully! We will contact you soon.')
-    return redirect(url_for('shop.index'))@shop.app_context_processor
-def cart_count():
-    cart = session.get('cart', {})
-    count = sum(cart.values())
-    return dict(cart_count=count)
+    flash('🎉 Order placed! We will contact you soon.')
+    return redirect(url_for('shop.index'))
