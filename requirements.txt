@@ -7,3 +7,8 @@ werkzeug
 gunicorn
 sqlalchemy
 wtforms
+click
+itsdangerous
+jinja2
+markupsafe
+blinker
