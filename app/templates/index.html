@@ -9,13 +9,11 @@
 </div>
 
 <!-- SEARCH BAR -->
-<!-- SEARCH BAR -->
 <form method="GET" action="/">
   <div class="input-group mb-3 shadow-sm">
     <span class="input-group-text bg-warning border-0">🔍</span>
     <input type="text" name="search" class="form-control border-0"
-           placeholder="Search smocks, shea butter, baskets..."
-           value="{{ search }}">
+           placeholder="Search smocks, shea butter, baskets...">
     <button class="btn btn-dark" type="submit">Search</button>
   </div>
 </form>
@@ -23,11 +21,12 @@
 <!-- MARKET LOCATIONS -->
 <h6 class="fw-bold mb-2">📍 Browse by Market</h6>
 <div class="d-flex gap-2 overflow-auto mb-3 pb-1">
-  <a href="/?market=bolga" class="btn btn-sm btn-dark rounded-pill text-nowrap">🏙️ Bolga Market</a>
-  <a href="/?market=navrongo" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🏘️ Navrongo</a>
-  <a href="/?market=paga" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🐊 Paga</a>
-  <a href="/?market=bawku" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🏪 Bawku</a>
-  <a href="/?market=sandema" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🛖 Sandema</a>
+  <a href="/" class="btn btn-sm btn-dark rounded-pill text-nowrap">All</a>
+  <a href="/?market=Bolga" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🏙️ Bolga</a>
+  <a href="/?market=Navrongo" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🏘️ Navrongo</a>
+  <a href="/?market=Paga" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🐊 Paga</a>
+  <a href="/?market=Bawku" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🏪 Bawku</a>
+  <a href="/?market=Sandema" class="btn btn-sm btn-outline-dark rounded-pill text-nowrap">🛖 Sandema</a>
 </div>
 
 <!-- CATEGORIES -->
@@ -45,7 +44,7 @@
     <a href="/?cat=food" class="text-decoration-none">
       <div class="cat-box bg-success rounded-3 p-2">
         <div class="fs-4">🍲</div>
-        <small class="fw-bold text-white">Local Food</small>
+        <small class="fw-bold text-white">Food</small>
       </div>
     </a>
   </div>
@@ -90,7 +89,7 @@
     </a>
   </div>
   <div class="col">
-    <a href="/?cat=medicine" class="text-decoration-none">
+    <a href="/?cat=herbal" class="text-decoration-none">
       <div class="cat-box bg-success rounded-3 p-2">
         <div class="fs-4">🌿</div>
         <small class="fw-bold text-white">Herbal</small>
@@ -108,10 +107,11 @@
   <div class="col">
     <div class="card h-100 shadow-sm product-card border-0">
       <img src="{{ url_for('static', filename='images/' + product.image) }}"
-           class="card-img-top product-img" alt="{{ product.name }}">
+           class="card-img-top product-img" alt="{{ product.name }}"
+           onerror="this.src='https://placehold.co/200x150/ffd200/000?text=No+Image'">
       <div class="card-body p-2">
         <p class="card-title fw-bold mb-1 small">{{ product.name }}</p>
-        <p class="text-muted small mb-1">📍 {{ product.category }}</p>
+        <p class="text-muted small mb-1">📍 {{ product.market }}</p>
         <p class="text-warning fw-bold mb-1">GH₵ {{ product.price }}</p>
         <a href="/product/{{ product.id }}" class="btn btn-warning btn-sm w-100 fw-bold">
           View Item
@@ -121,16 +121,17 @@
   </div>
   {% endfor %}
 </div>
-
 {% else %}
 <div class="text-center py-4">
   <div class="fs-1">🏪</div>
   <p class="text-muted mt-2">No products yet.</p>
+  {% if current_user.is_authenticated and current_user.is_admin %}
   <a href="/admin/add-product" class="btn btn-warning fw-bold">+ Add First Product</a>
+  {% endif %}
 </div>
 {% endif %}
 
-<!-- MARKET INFO SECTION -->
+<!-- POPULAR MARKETS -->
 <div class="mt-4">
   <h6 class="fw-bold mb-2">🗺️ Popular Markets</h6>
   <div class="card border-0 shadow-sm rounded-4 p-3 mb-2">
