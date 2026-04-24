@@ -14,8 +14,7 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.String(20))
     location = db.Column(db.String(100))
     is_admin = db.Column(db.Boolean, default=False)
-    joined = db.Column(db.DateTime, default=datetime.utcnow)
-
+    joined = db.Column(db.DateTime, default=datetime.utcnow, nullable=True)
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200))
